@@ -2,10 +2,7 @@ Here provides the datasets and codes for our upcoming paper [*"Learning Influenc
 
 ### Datasets
 * Darwin
-
-This dataset includes messages posted by 6571 Twitter users whose location are *Darwin, Australia* during 11 Oct 2017 to 26 Jan 2018.
-
 * Melcup17
-
+Details and descriptions are provided in the Data Folder.
 
 ### Codes
