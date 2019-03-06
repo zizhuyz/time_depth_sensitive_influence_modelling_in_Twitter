@@ -6,3 +6,4 @@ Two datasets ***Darwin*** and ***Melcup17*** collected from Twitter are provided
 Details and descriptions are given in the Data Folder.
 
 ### Codes
+Codes for calculating influence probabilities and all the six diffusion models studied in the paper. Written in Python 2.7.
