@@ -29,15 +29,12 @@ def TD_C(p1, time_frame, time_slot, N_steps, sds, n_iterations):
 
         traces=[]
         traces.append([0, '', sd, 0])
-        tracef = '%sd_%s_%smin_%s_traces_1.txt'%(str(TD_folder),str(sd),str(time_slot),str(p1))
         tracedf = '%sd_%s_%smin_%s_traces_detail_1.txt'%(str(TD_folder),str(sd),str(time_slot),str(p1))
         recordf = '%sd_%s_%smin_%s_records_1.txt'%(str(TD_folder),str(sd),str(time_slot),str(p1))
         cols1 = ['step', 'successful_Us', 'newly_activated_v', 'trial']
-        result_df = pd.DataFrame(traces, columns=cols1)
-        result_df.to_csv(tracef, sep='\t', mode='a', header=cols1, index=False)
         results_df = pd.DataFrame(traces, columns=cols1)
         results_df.to_csv(tracedf, sep='\t', mode='a', header=cols1, index=False)
-
+	
         record = []
         record.append([0, len(seed_active_set), 0])
         cols2 = ['step', 'n_newly_activated_v', 'trial']
@@ -100,9 +97,6 @@ def TD_C(p1, time_frame, time_slot, N_steps, sds, n_iterations):
             # save the diffusion traces
             results = pd.DataFrame(traces_detail, columns=cols1)
             results.to_csv(tracedf, sep='\t', mode='a', header=False, index=False)
-            # save the diffusion traces
-            result = pd.DataFrame(traces, columns=cols1)
-            result.to_csv(tracef, sep='\t', mode='a', header=False, index=False)
             # # save the statistics
             records = pd.DataFrame(record, columns=cols2)
             records.to_csv(recordf, sep='\t', mode='a', header=False, index=False)
@@ -130,13 +124,9 @@ def TD_C_woi(p1, time_frame, time_slot, N_steps, sds, n_iterations):
 
         traces=[]
         traces.append([0,'', sd,0])
-        tracef = '%se_%s_%smin_%s_traces_1.txt'%(str(TD_folder),str(sd),str(time_slot),str(p1))
         tracedf = '%se_%s_%smin_%s_traces_detail_1.txt'%(str(TD_folder),str(sd),str(time_slot),str(p1))
         recordf = '%se_%s_%smin_%s_records_1.txt'%(str(TD_folder),str(sd),str(time_slot),str(p1))
         cols1 = ['step', 'successful_Us', 'newly_activated_v', 'trial']
-        result_df = pd.DataFrame(traces, columns=cols1)
-        result_df.to_csv(tracef, sep='\t', mode='a', header=cols1, index=False)
-        results_df = pd.DataFrame(traces, columns=cols1)
         results_df.to_csv(tracedf, sep='\t', mode='a', header=cols1, index=False)
 
         record = []
@@ -203,9 +193,6 @@ def TD_C_woi(p1, time_frame, time_slot, N_steps, sds, n_iterations):
             # save the diffusion traces
             results = pd.DataFrame(traces_detail, columns=cols1)
             results.to_csv(tracedf, sep='\t', mode='a', header=False, index=False)
-            # save the diffusion traces
-            result = pd.DataFrame(traces, columns=cols1)
-            result.to_csv(tracef, header=False, index=False)
             # # save the statistics
             records = pd.DataFrame(record, columns=cols2)
             records.to_csv(recordf, sep='\t', mode='a', header=False, index=False)
@@ -228,17 +215,12 @@ def TDD_C(p1, time_frame, time_slot, N_steps, sds,  depth_decay_factor, n_iterat
         seed_users = []
         seed_users.append(sd)
         seed_active_set = set(seed_users)
-        TDD_folder = "E:/00 Project data/Influence Model/loaction-based Darwin data/" \
-                     "08 C model results/TDD/"
+        TDD_folder = "E:/TDD/"
         traces=[]
         traces.append([0,'', sd,0])
-        tracef = '%sd2_%s_%smin_%s_traces_1.txt'%(str(TDD_folder),str(sd),str(time_slot),str(p1))
         tracedf = '%sd2_%s_%smin_%s_traces_detail_1.txt'%(str(TDD_folder),str(sd),str(time_slot),str(p1))
         recordf = '%sd2_%s_%smin_%s_records_1.txt'%(str(TDD_folder),str(sd),str(time_slot),str(p1))
         cols1 = ['step', 'successful_Us', 'newly_activated_v', 'trial']
-        result_df = pd.DataFrame(traces, columns=cols1)
-        result_df.to_csv(tracef, sep='\t', mode='a', header=cols1, index=False)
-        results_df = pd.DataFrame(traces, columns=cols1)
         results_df.to_csv(tracedf, sep='\t', mode='a', header=cols1, index=False)
 
         record = []
@@ -306,9 +288,6 @@ def TDD_C(p1, time_frame, time_slot, N_steps, sds,  depth_decay_factor, n_iterat
             # save the diffusion trace details
             results = pd.DataFrame(traces_detail, columns=cols1)
             results.to_csv(tracedf, sep='\t', mode='a', header=False, index=False)
-            # save the diffusion traces
-            result = pd.DataFrame(traces, columns=cols1)
-            result.to_csv(tracef, sep='\t', mode='a', header=False, index=False)
             # # save the statistics
             records = pd.DataFrame(record, columns=cols2)
             records.to_csv(recordf, sep='\t', mode='a', header=False, index=False)
@@ -336,12 +315,9 @@ def TDD_C_woi(p1, time_frame, time_slot, N_steps, sds, depth_decay_factor, n_ite
         seed_active_set = set(seed_users)
         traces=[]
         traces.append([0,'', sd,0])
-        tracef = '%se2_%s_%smin_%s_traces_1.txt'%(str(TDD_folder),str(sd),str(time_slot),str(p1))
         tracedf = '%se2_%s_%smin_%s_traces_detail_1.txt'%(str(TDD_folder),str(sd),str(time_slot),str(p1))
         recordf = '%se2_%s_%smin_%s_records_1.txt'%(str(TDD_folder),str(sd),str(time_slot),str(p1))
         cols1 = ['step', 'successful_Us', 'newly_activated_v', 'trial']
-        result_df = pd.DataFrame(traces, columns=cols1)
-        result_df.to_csv(tracef, sep='\t', mode='a', header=cols1, index=False)
         results_df = pd.DataFrame(traces, columns=cols1)
         results_df.to_csv(tracedf, sep='\t', mode='a', header=cols1, index=False)
 
@@ -409,9 +385,6 @@ def TDD_C_woi(p1, time_frame, time_slot, N_steps, sds, depth_decay_factor, n_ite
             # save the diffusion traces
             results = pd.DataFrame(traces_detail, columns=cols1)
             results.to_csv(tracedf, sep='\t', mode='a', header=False, index=False)
-            # save the diffusion traces
-            result = pd.DataFrame(traces, columns=cols1)
-            result.to_csv(tracef, sep='\t', mode='a', header=False, index=False)
             # save the statistics
             records = pd.DataFrame(record, columns=cols2)
             records.to_csv(record, sep='\t', mode='a', header=False, index=False)
@@ -434,16 +407,12 @@ def TC_C(p1, time_frame, time_slot, N_steps, sds, n_iterations):
         seed_users = []
         seed_users.append(sd)
         seed_active_set = set(seed_users)
-        TD_folder = "E:/00 Project data/Influence Model/loaction-based Darwin data/" \
-                    "08 C model results/TC/"
+        TD_folder = "E:/TC/"
         traces=[]
         traces.append([0, '', sd, 0])
-        tracef = '%sd_cp_%s_%smin_%s_traces_1.txt'%(str(TD_folder),str(sd),str(time_slot),str(p1))
         tracedf = '%sd_cp_%s_%smin_%s_traces_detail_1.txt'%(str(TD_folder),str(sd),str(time_slot),str(p1))
         recordf = '%sd_cp_%s_%smin_%s_records_1.txt'%(str(TD_folder),str(sd),str(time_slot),str(p1))
         cols1 = ['step', 'successful_Us', 'newly_activated_v', 'trial']
-        result_df = pd.DataFrame(traces, columns=cols1)
-        result_df.to_csv(tracef, sep='\t', mode='a', header=cols1, index=False)
         results_df = pd.DataFrame(traces, columns=cols1)
         results_df.to_csv(tracedf, sep='\t', mode='a', header=cols1, index=False)
 
@@ -510,9 +479,6 @@ def TC_C(p1, time_frame, time_slot, N_steps, sds, n_iterations):
             # save the diffusion traces
             results = pd.DataFrame(traces_detail, columns=cols1)
             results.to_csv(tracedf, sep='\t', mode='a', header=False, index=False)
-            # save the diffusion traces
-            result = pd.DataFrame(traces, columns=cols1)
-            result.to_csv(tracef, sep='\t', mode='a', header=False, index=False)
             # # save the statistics
             records = pd.DataFrame(record, columns=cols2)
             records.to_csv(recordf, sep='\t', mode='a', header=False, index=False)
@@ -531,8 +497,7 @@ def TC_C_woi(p1, time_frame, time_slot, N_steps, sds, n_iterations):
     # get the u,v,prob
     p_df = pre.get_p_df_woi(p1)
 
-    TD_folder = "E:/00 Project data/Influence Model/loaction-based Darwin data/" \
-                "08 C model results/TC/"
+    TD_folder = "E:/TC/"
 
     for sd in sds:
         seed_users = []
@@ -540,12 +505,9 @@ def TC_C_woi(p1, time_frame, time_slot, N_steps, sds, n_iterations):
         seed_active_set = set(seed_users)
         traces=[]
         traces.append([0, '', sd, 0])
-        tracef = '%se_cp_%s_%smin_%s_traces_1.txt'%(str(TD_folder),str(sd),str(time_slot),str(p1))
         tracedf = '%se_cp_%s_%smin_%s_traces_detail_1.txt'%(str(TD_folder),str(sd),str(time_slot),str(p1))
         recordf = '%se_cp_%s_%smin_%s_records_1.txt'%(str(TD_folder),str(sd),str(time_slot),str(p1))
         cols1 = ['step', 'successful_Us', 'newly_activated_v', 'trial']
-        result_df = pd.DataFrame(traces, columns=cols1)
-        result_df.to_csv(tracef, sep='\t', mode='a', header=cols1, index=False)
         results_df = pd.DataFrame(traces, columns=cols1)
         results_df.to_csv(tracedf, sep='\t', mode='a', header=cols1, index=False)
 
@@ -608,9 +570,6 @@ def TC_C_woi(p1, time_frame, time_slot, N_steps, sds, n_iterations):
             # save the diffusion traces
             results = pd.DataFrame(traces_detail, columns=cols1)
             results.to_csv(tracedf, sep='\t', mode='a', header=False, index=False)
-            # save the diffusion traces
-            result = pd.DataFrame(traces, columns=cols1)
-            result.to_csv(tracef, sep='\t', mode='a', header=False, index=False)
             # # save the statistics
             records = pd.DataFrame(record, columns=cols2)
             records.to_csv(recordf, sep='\t', mode='a', header=False, index=False)
