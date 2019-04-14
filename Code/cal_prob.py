@@ -39,20 +39,16 @@ def get_p_df(history, sn, p1=0.001, beta=0.5):
 
     p_2 = data_0.append(data_1, ignore_index=True)
 
-    # assign probs for user pairs with no interaction history
-    # edge type: 1: follow only, u has no actions 2: follow only, u has actions
-    # 3, (u,v) pairs with interaction and following relations
-    # 4, (u,v) pairs only with interaction relations
-    temp = sn.loc[sn['edge_type'].isin([1, 2])]
-    columns = ['u', 'v']
-    p1_df = pd.DataFrame(temp, columns=columns).copy()
-    p1_df['prob'] = p1
-
     p_2['prob'] = p_2.apply(lambda row: 1 - (1 - p1) * (1 - row.p_2), axis=1)
     columns = ['u', 'v', 'prob']
+    # influence probability calculated for user pairs with interactions (interactions happen in T0 time)
     p2_df = pd.DataFrame(p_2, columns=columns).copy()
-    # put two dataframes together, p_df is the u, v probability dataframe to be used in the IC model
-    p_df = p1_df.append(p2_df, ignore_index=True)
+    # merge the social network and the probability calculated for the pairs with interactions
+    p_df = pd.merge(sn, p2_df, how='left', on=['u', 'v'])
+
+    # set p1 for the nan pairs (with no interaction history)
+    p_df.loc[p_df.prob.isnull(), 'prob'] = p1
+    p_df = p_df.sort_values(by=['prob'])
     return p_df
 
 
@@ -144,7 +140,7 @@ if __name__ == "__main__":
     p1, alpha1, alpha2, beta = 0.001, 1, 1, 0.5
     TIME_FRAME = 300
     slots = [5, 10, 15]
-    p_df = get_p_df(interactions, network, p1=p1, beta=beta)
+    P_df = get_p_df(interactions, network, p1=p1, beta=beta)
     # for slot in slots:
     #     ps = get_pre_cal_decay_ps(TIME_FRAME, slot, p_df, alpha=alpha1)
     #     save_obj(ps, 'pre_ps_' + str(p1) + '_' + str(alpha) + '_' + str(TIME_FRAME) + '_' + str(slot))

@@ -76,6 +76,9 @@ def model(md, pre_ps, G, time_frame, time_slot, N_steps, sd, alpha=1, depth_deca
     # seed
     seed_active_set = set(sd)
 
+    # shortest path length to seed
+    depth_dict = nx.single_source_shortest_path_length(G, sd)
+
     st = time.clock()
 
     step = 0
@@ -86,8 +89,8 @@ def model(md, pre_ps, G, time_frame, time_slot, N_steps, sd, alpha=1, depth_deca
     trace.append([0, seed_active_set, {}])
 
     temp = []
-    temp.append([0, sd])
-    temp_df = pd.DataFrame(temp, columns=['step', 'activated_node'])
+    temp.append([0, sd, 0])
+    temp_df = pd.DataFrame(temp, columns=['step', 'activated_node', 'depth'])
 
     n_lose_effect=0
 
@@ -125,12 +128,13 @@ def model(md, pre_ps, G, time_frame, time_slot, N_steps, sd, alpha=1, depth_deca
                         p = pre_ps[prob]
                     pi *= (1.0 - p)
                 joint_prob = 1.0 - pi
-                x = random.random()
+                x = random.random()/int(time_frame/time_slot)*3
                 # If a neighbour is activated, add it into activated_set
                 if x < joint_prob:
                     # print 'joint_prob:', joint_prob, 'random number:', x
                     new_active_set.add(a_v)
-                    temp_df=temp_df.append(pd.DataFrame([[step, a_v]], columns=['step', 'activated_node']),ignore_index=True)
+                    a_v_depth_to_sd = depth_dict[a_v]
+                    temp_df=temp_df.append(pd.DataFrame([[step, a_v, a_v_depth_to_sd]], columns=['step', 'activated_node', 'depth']),ignore_index=True)
         effect_set = set(temp_df[temp_df['step'] > step-int(time_frame/time_slot)]['activated_node'].tolist())
         active_set = active_set.union(new_active_set)
         lose_effect_nd0 = active_set-effect_set
@@ -145,16 +149,18 @@ def model(md, pre_ps, G, time_frame, time_slot, N_steps, sd, alpha=1, depth_deca
     trace_df = pd.DataFrame(trace, columns=['step', 'effect_nd1', 'lose_effect_nd0'])
     print sd, time.clock() - st, 'seconds for one simulation'
     print trace_df
-    return trace_df
+    print temp_df
+    return trace_df, temp_df
 
 
 if __name__ == "__main__":
     interactions = pd.read_csv('factors1.txt', sep=',')
     network = pd.read_csv('network1.txt', sep=',')
-    p1, alpha1, alpha2, beta = 0.001, 1, 1, 0.5
+    p1, alphaTC, alphaTD, beta = 0.001, 1.5, 2, 0.5
     time_frame = 300
     time_slot = 10
-    p_df, pre_ps, G = get_inputs_for_d_model(interactions, network, time_frame=time_frame, time_slot=time_slot)
-    c_p_df, c_pre_ps, c_G = get_inputs_for_c_model(interactions, network, time_frame=time_frame, time_slot=time_slot)
-    # rslt = model('TD', p_df, pre_ps, G, time_frame, time_slot, 50, 'j')
-    rslt = model('TD', c_pre_ps, c_G, time_frame, time_slot, 50, 'j')
+    # p_df, pre_ps, G = get_inputs_for_d_model(interactions, network, time_frame=time_frame, time_slot=time_slot,alpha=alphaTD)
+    # rslt_plot, rstl_stat = model('TD', pre_ps, G, time_frame, time_slot, 50, 'j', alpha=alphaTD)
+    c_p_df, c_pre_ps, c_G = get_inputs_for_c_model(interactions, network, time_frame=time_frame, time_slot=time_slot, alpha=alphaTC)
+    rslt = model('TC', c_pre_ps, c_G, time_frame, time_slot, 50, 'j', alpha=alphaTC)
+
